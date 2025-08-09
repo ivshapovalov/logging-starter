@@ -1,25 +1,14 @@
 package ru.shapovalov.loggingstarter;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "logging")
 public class LoggingProperties {
 
-    private Boolean enabled;
     private Boolean logExecTime;
-    private WebLoggingProperties webLogging;
-
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
+    private WebLoggingProperties webLogging = new WebLoggingProperties();
 
     public Boolean getLogExecTime() {
         return logExecTime;
@@ -39,10 +28,10 @@ public class LoggingProperties {
 
     public static class WebLoggingProperties {
 
-        private Boolean enabled;
-        private Boolean logBody;
+        private Boolean enabled = true;
+        private Boolean logBody = false;
         private List<String> excludedPaths = new ArrayList<>();
-        private WebLoggingMaskingProperties masking;
+        private WebLoggingMaskingProperties masking = new WebLoggingMaskingProperties();
 
         public List<String> getExcludedPaths() {
             return excludedPaths;
@@ -78,7 +67,8 @@ public class LoggingProperties {
     }
 
     public static class WebLoggingMaskingProperties {
-        private Boolean enabled;
+
+        private Boolean enabled = true;
         private List<String> headers = new ArrayList<>();
 
         public List<String> getHeaders() {

@@ -30,7 +30,7 @@ public class LoggingStarterAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "logging.web-logging", name = {"enabled", "log-body"}, havingValue = "true")
-    public WebLoggingRequestBodyAdvice webLoggingRequestBodyAdvice(HttpServletRequest request) {
-        return new WebLoggingRequestBodyAdvice(request);
+    public WebLoggingRequestBodyAdvice webLoggingRequestBodyAdvice() {
+        return new WebLoggingRequestBodyAdvice();
     }
 }

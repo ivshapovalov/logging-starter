@@ -34,7 +34,7 @@ public class WebLoggingFilter extends HttpFilter {
         this.loggingProperties = loggingProperties;
         this.pathMatcher = pathMatcher;
         this.isLogBodyEnabled = isLogBodyEnabled();
-        this.isMaskingHeadersEnabled = isMaskingHeadersEnabled();
+        this.isMaskingHeadersEnabled = isMaskingEnabled();
         this.maskingHeaders = maskingHeaders();
     }
 
@@ -44,7 +44,7 @@ public class WebLoggingFilter extends HttpFilter {
         String requestURI = request.getRequestURI() + WebLoggingUtils.formatQueryString(request);
         String requestHeaders = WebLoggingUtils.inlineRequestHeaders(request, isMaskingHeadersEnabled ? maskingHeaders : Collections.emptyList());
 
-        if (isExcludedPath(requestURI)) {
+        if (WebLoggingUtils.isExcludedPath(loggingProperties,pathMatcher,requestURI)) {
             chain.doFilter(request, response);
             return;
         }
@@ -68,35 +68,14 @@ public class WebLoggingFilter extends HttpFilter {
     }
 
     private boolean isLogBodyEnabled() {
-        return Optional.ofNullable(loggingProperties)
-                .map(LoggingProperties::getWebLogging)
-                .map(LoggingProperties.WebLoggingProperties::getLogBody)
-                .orElse(false);
+        return loggingProperties.getWebLogging().getLogBody();
     }
 
-    private boolean isMaskingHeadersEnabled() {
-        return Optional.ofNullable(loggingProperties)
-                .map(LoggingProperties::getWebLogging)
-                .map(LoggingProperties.WebLoggingProperties::getMasking)
-                .map(LoggingProperties.WebLoggingMaskingProperties::getEnabled)
-                .orElse(false);
+    private boolean isMaskingEnabled() {
+        return loggingProperties.getWebLogging().getMasking().getEnabled();
     }
 
     private List<String> maskingHeaders() {
-        return Optional.ofNullable(loggingProperties)
-                .map(LoggingProperties::getWebLogging)
-                .map(LoggingProperties.WebLoggingProperties::getMasking)
-                .map(LoggingProperties.WebLoggingMaskingProperties::getHeaders)
-                .orElse(new ArrayList<>());
+        return loggingProperties.getWebLogging().getMasking().getHeaders();
     }
-
-    private boolean isExcludedPath(String requestURI) {
-        List<String> excludedPaths = Optional.ofNullable(loggingProperties)
-                .map(LoggingProperties::getWebLogging)
-                .map(LoggingProperties.WebLoggingProperties::getExcludedPaths)
-                .orElse(new ArrayList<>());
-        return excludedPaths.stream()
-                .anyMatch(pattern -> pathMatcher.match(pattern, requestURI));
-    }
-
 }
