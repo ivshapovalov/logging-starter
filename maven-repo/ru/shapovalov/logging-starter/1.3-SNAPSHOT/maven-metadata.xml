@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>ru.shapovalov</groupId>
+  <artifactId>logging-starter</artifactId>
+  <versioning>
+    <lastUpdated>20250807185044</lastUpdated>
+    <snapshot>
+      <timestamp>20250807.185044</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.3-20250807.185044-1</value>
+        <updated>20250807185044</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.3-20250807.185044-1</value>
+        <updated>20250807185044</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>module</extension>
+        <value>1.3-20250807.185044-1</value>
+        <updated>20250807185044</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>1.3-SNAPSHOT</version>
+</metadata>
